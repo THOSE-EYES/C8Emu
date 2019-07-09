@@ -47,6 +47,6 @@ public:
 	unsigned char read();	//Reading data from the memory array consistently
 	void move(unsigned short block);	//Moving the pointer to a block
 
-	void storeReturnAdress();	//Used when a subroutine is called to go back later
+	void storeReturnAdress();	//Used when a subroutine is called to go back later (RENAME)
 	void recurr();	//Returning to a previous task(after completing a subroutine)
 };

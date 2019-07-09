@@ -2,8 +2,8 @@
 
 Memory::Memory() {
 	//Initialize variables
-	this->adress = 0x00;
-	this->stack_adress = 0x00;
+	adress = 0x00;
+	stack_adress = 0x00;
 }
 
 Memory::~Memory() {
@@ -17,7 +17,7 @@ void Memory::write(unsigned char data) {
 	memory[adress] = data;
 
 	//Move the pointer
-	this->adress++;
+	adress++;
 }
 
 unsigned char Memory::read() {
@@ -27,7 +27,7 @@ unsigned char Memory::read() {
 	unsigned char data = memory[adress];
 
 	//Move the pointer
-	this->adress++;
+	adress++;
 
 	//Return data
 	return data;
@@ -40,17 +40,29 @@ void Memory::move(unsigned short block) {
 	}
 
 	//Move the pointer to the block
-	this->adress = block;
+	adress = block;
 }
 
 void Memory::storeReturnAdress() {
+	if (stack_adress == STACK_SIZE) {
+		//Raise an exception
+	}
+
 	//Store the adress in the stack
-	this->stack[stack_adress] = adress;
+	stack[stack_adress] = adress;
 
 	//Move the adress to a free block
-	this->stack_adress++;
+	stack_adress++;
 }
 
 void Memory::recurr() {
+	if (stack_adress == 0) {
+		//Raise an exception
+	}
 
+	//Recovering the previous adress of memory to continue executing the previous task
+	adress = stack[stack_adress];
+
+	//Moving to the next stack block
+	stack_adress--;
 }

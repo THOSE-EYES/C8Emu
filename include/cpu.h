@@ -1,5 +1,8 @@
 #pragma once
 
+#include <climits>
+#include <experimental/random>
+
 #include "memory.h"
 #include "graphics.h"
 #include "input.h"
