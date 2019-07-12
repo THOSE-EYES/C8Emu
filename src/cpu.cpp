@@ -1,6 +1,8 @@
 #include "cpu.h"
 
-CPU::CPU() {
+CPU::CPU(Memory* filled_memory) {
+	//Initializing all the variables
+	memory = filled_memory;
 }
 
 CPU::~CPU() {
@@ -38,6 +40,7 @@ void CPU::execute(unsigned short opcode) {
 	switch(opcode) {	//Execute some simple commands without any argument
 		case 00EE:
 			//Exit from a subroutine
+			memory->recurr();
 
 			break;
 
@@ -54,25 +57,25 @@ void CPU::execute(unsigned short opcode) {
 
 	if(isExecuted == false) {	//Execute other commands
 		switch((opcode & 0xF000) >> 12) {
-			case 0:
+			case 0x0:
 				//0NNN - Calls RCA 1802 program at address NNN. Not necessary for most ROMs
 
 				break;
 
-			case 1:
+			case 0x1:
 				//1NNN - Jumps to address NNN
 				memory->move(opcode & 0x0FFF); //Clearing the first 4 bits to get an adress
 
 				break;
 
-			case 2:
+			case 0x2:
 				//2NNN - Calls subroutine at NNN
 				memory->storeReturnAdress();
 				memory->move(opcode & 0x0FFF);
 
 				break;
 
-			case 3:
+			case 0x3:
 				//3XNN - Skips the next instruction if VX equals NN
 				if (V[(opcode & 0x0F00) >> 8] == (opcode & 0x00FF)) {
 					isSkipping = true;
@@ -80,7 +83,7 @@ void CPU::execute(unsigned short opcode) {
 
 				break;
 
-			case 4:
+			case 0x4:
 				//4XNN - Skips the next instruction if VX doesn't equal NN
 				if (V[(opcode & 0x0F00) >> 8] != (opcode & 0x00FF)) {
 					isSkipping = true;
@@ -88,7 +91,7 @@ void CPU::execute(unsigned short opcode) {
 
 				break;
 
-			case 5:
+			case 0x5:
 				//5XY0 - Skips the next instruction if VX equals VY
 				if (V[(opcode & 0x0F00) >> 8] == V[(opcode & 0x00F0) >> 4]) {
 					isSkipping = true;
@@ -96,19 +99,19 @@ void CPU::execute(unsigned short opcode) {
 
 				break;
 
-			case 6:
+			case 0x6:
 				//6XNN - Sets VX to NN
 				V[(opcode & 0x0F00) >> 8] = (opcode & 0x00FF);
 
 				break;
 
-			case 7:
+			case 0x7:
 				//7XNN - Adds NN to VX (carry flag is not changed)
 				V[(opcode & 0x0F00) >> 8] += (opcode & 0x00FF);
 
 				break;
 
-			case 8:
+			case 0x8:
 				switch (opcode & 0xF) {
 					case 0:
 						//8XY0 - Sets VX to the value of VY
@@ -195,7 +198,7 @@ void CPU::execute(unsigned short opcode) {
 
 				break;
 
-			case 9:
+			case 0x9:
 				//9XY0 - Skips the next instruction if VX doesn't equal VY
 				if (V[(opcode & 0x0F00) >> 8] != V[(opcode & 0x00F0) >> 4]) {
 					isSkipping = true;
@@ -302,12 +305,16 @@ void CPU::execute(unsigned short opcode) {
 						The offset from I is increased by 1 for each value written, but I itself \
 						is left unmodified
 
+						memory->storeReturnAdress();
+
 						memory->move(VI);
 
 						for (int counter = 0; counter != REGISTERS_AMOUNT; counter++) {
 							memory->write(V[counter]);
 						}
 
+						memory->recurr();
+						
 						break;
 
 					case 0x65:
@@ -315,11 +322,15 @@ void CPU::execute(unsigned short opcode) {
 						address I. The offset from I is increased by 1 for each value written, but \
 						I itself is left unmodified
 						
+						memory->storeReturnAdress();
+
 						memory->move(VI);
 
 						for (int counter = 0; counter != REGISTERS_AMOUNT; counter++) {
 							V[counter] = memory->read();
 						}
+
+						memory->recurr();
 
 						break;
 				}
