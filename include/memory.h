@@ -1,5 +1,4 @@
 
-
 /* CHIP-8 MEMORY MAP
 
 +---------------+= 0xFFF (4095) End of Chip-8 RAM

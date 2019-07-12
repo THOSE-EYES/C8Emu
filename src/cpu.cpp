@@ -109,7 +109,7 @@ void CPU::execute(unsigned short opcode) {
 				break;
 
 			case 8:
-				switch (opcode & 0x000F) {
+				switch (opcode & 0xF) {
 					case 0:
 						//8XY0 - Sets VX to the value of VY
 						V[(opcode & 0x0F00) >> 8] == V[(opcode & 0x00F0) >> 4];
@@ -229,6 +229,102 @@ void CPU::execute(unsigned short opcode) {
 				instruction. As described above, VF is set to 1 if any screen pixels are \
 				flipped from set to unset when the sprite is drawn, and to 0 if that doesn’t \
 				happen
+
+				break;
+
+			case 0xE:
+				switch(opcode & 0xFF) {
+					case 0x9E:
+						//EX9E - Skips the next instruction if the key stored in VX is pressed
+
+						break;
+
+					case 0xA1:
+						//EXA1 - Skips the next instruction if the key stored in VX isn't pressed
+
+						break;
+				}
+
+				break;
+
+			case 0xF:
+				switch(opcode & 0xFF) {
+					case 0x07:
+						//FX07 - Sets VX to the value of the delay timer
+						V[opcode & 0x0F00] = DT;
+
+						break;
+
+					case 0x0A:
+						//FX0A - A key press is awaited, and then stored in VX
+						
+						/*
+						while() {
+
+						}
+						*/
+
+						break;
+
+					case 0x15:
+						//FX15 - Sets the delay timer to VX
+						DT = V[opcode & 0x0F00];
+
+						break;
+
+					case 0x18:
+						//FX18 - 	Sets the sound timer to VX
+						ST = V[opcode & 0x0F00];
+
+						break;
+
+					case 0x1E:
+						//FX1E - Adds VX to I
+						VI += V[opcode & 0x0F00];
+
+						break;
+
+					case 0x29:
+						//FX29 - Sets I to the location of the sprite for the character \
+						in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font
+
+						break;
+
+					case 0x33:
+						//FX33 - Stores the binary-coded decimal representation of VX, with \
+						the most significant of three digits at the address in I, the middle \
+						digit at I plus 1, and the least significant digit at I plus 2
+
+						break;
+
+					case 0x55:
+						//FX55 - Stores V0 to VX (including VX) in memory starting at address I. \
+						The offset from I is increased by 1 for each value written, but I itself \
+						is left unmodified
+
+						memory->move(VI);
+
+						for (int counter = 0; counter != REGISTERS_AMOUNT; counter++) {
+							memory->write(V[counter]);
+						}
+
+						break;
+
+					case 0x65:
+						//FX65 - Fills V0 to VX (including VX) with values from memory starting at \
+						address I. The offset from I is increased by 1 for each value written, but \
+						I itself is left unmodified
+						
+						memory->move(VI);
+
+						for (int counter = 0; counter != REGISTERS_AMOUNT; counter++) {
+							V[counter] = memory->read();
+						}
+
+						break;
+				}
+
+				break;
 		}
 	}
 }
@@ -243,12 +339,4 @@ void CPU::checkInterrupts() {
 	if (ST == 0) {
 
 	}
-}
-
-void setDTimer(unsigned char timer_value) {
-	DT = timer_value;
-}
-
-void setSTimer(unsigned char timer_value) {
-	ST = timer_value;
 }
