@@ -27,9 +27,10 @@ private:
 
 	//Instances
 	Memory* memory
+	SoundPlayer* player;
 
 public:
-	CPU();
+	CPU(Memory* filled_memory, SoundPlayer* selected_api);
 	~CPU();
 
 	void emulateCycle();

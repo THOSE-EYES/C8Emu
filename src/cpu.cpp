@@ -1,8 +1,10 @@
 #include "cpu.h"
 
-CPU::CPU(Memory* filled_memory) {
+CPU::CPU(Memory* filled_memory, SoundPlayer* selected_api) {
 	//Initializing all the variables
 	memory = filled_memory;
+
+	player = selected_api;
 }
 
 CPU::~CPU() {
@@ -276,8 +278,11 @@ void CPU::execute(unsigned short opcode) {
 						break;
 
 					case 0x18:
-						//FX18 - 	Sets the sound timer to VX
+						//FX18 - Sets the sound timer to VX
 						ST = V[opcode & 0x0F00];
+
+						//Triggering the buzzer
+						//player->play();
 
 						break;
 
