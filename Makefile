@@ -1,24 +1,27 @@
-CC = gcc
-CFLAGS = -Wall
+TITLE = CHIP-8
 
 CXX = g++ -std=c++11
-CXXFLAGS = -Wall -lboost_serialization
+CPPFLAGS = -Wall 
+
+LDFLAGS = -lboost_serialization
 
 BUILDING_FOLDER = ../build
-OUT_FOLDER = ../$(BUILDING_FOLDER)/out
+OUTPUT_FOLDER = ../$(BUILDING_FOLDER)/out
 
-VPATH = include src tests
+VPATH = include src tests build
 
-#vpath %.h ../include
-#vpath %.c ../src
-#vpath %.o ../build
+.PHONY : clean install 
 
+#all : $(OUTPUT_FOLDER)/$(TITLE)
 
+$(OUTPUT_FOLDER)/$(TITLE) : $(wildcard $(BUILDING_FOLDER)/*.o)
+	$(CXX) $(CPPFLAGS) $(LDFLAGS) $^ -o $@
 
-all : *
-
-
-$(BUILDING_FOLDER)/settings.o : settings.cpp settings.h
-	$(CXX) $(CXXFLAGS) $^
+$(BUILDING_FOLDER)/%.o : %.cpp %.h
+	$(CXX) $(CPPFLAGS) -c $^ -o $@
 
 clean : 
+	rm -rf $(BUILDING_FOLDER)/*.o
+	rm $(OUTPUT_FOLDER)/$(TITLE)
+
+install :
