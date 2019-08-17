@@ -1,7 +1,9 @@
 #include "cpu.h"
 
 int main(int argc, char *argv[]) {
-	//Initialize all the structures and variables
+	//Check the arguments
+
+	//Create GUI interface
 
 	return 0;
 }
