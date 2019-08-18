@@ -15,21 +15,18 @@ P.S. It's an uncompleted project. It can't even be compiled. There are a lot to 
 The emulator requires 'boost'
 
 * For Ubuntu-like distributions :
-
 ...
 
 $ sudo apt-get install libboost-all-dev
 ...
 
 * For Arch-like distributions :
-
 ...
 
 $ sudo pacman -S boost
 ...
 
 To compile :
-
 ...
 
 $ cd (folder)
