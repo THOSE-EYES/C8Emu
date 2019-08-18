@@ -1,4 +1,5 @@
 # CHIP-8-Emulator
+
 It's a simple emulator of the CHIP-8 written in C++.
 
 P.S. It's an uncompleted project. It can't even be compiled. There are a lot to do.
@@ -8,6 +9,31 @@ P.S. It's an uncompleted project. It can't even be compiled. There are a lot to 
 * [How to write an emulator (CHIP-8 interpreter)](http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/)
 * [Wikipedia: CHIP-8](https://en.wikipedia.org/wiki/CHIP-8)
 * [Cowgod's CHIP-8 tech reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
+
+## Compiling and Running
+
+The emulator requires 'boost'
+
+* For Ubuntu-like distributions :
+
+...
+$ sudo apt-get install libboost-all-dev
+...
+
+* For Arch-like distributions :
+
+...
+$ sudo pacman -S boost
+...
+
+To compile :
+
+...
+$ cd (folder)
+$ make
+...
+
+The compiled program will be in '(folder)/build/out'
 
 ## Opcodes:
 
