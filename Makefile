@@ -1,37 +1,43 @@
 TITLE = CHIP-8_$(shell date +'%d%m%Y')
 
 CXX = g++ -std=c++11
-CPPFLAGS = -Wall 
+CPPFLAGS = -Wall -Iinclude
 
-LDFLAGS = -lboost_serialization
+LDFLAGS = -lboost_serialization -lpthread
 
-BUILDING_FOLDER = ../build
-OUTPUT_FOLDER = ../$(BUILDING_FOLDER)/out
+#ESSENTIAL FOLDERS
+BUILDING_FOLDER = build
+OUTPUT_FOLDER = $(BUILDING_FOLDER)/out
 
-VPATH = include src tests build
+SOURCES_FOLDER = src
+HEADERS_FOLDER = include
+TESTS_FOLDER = tests
 
-.PHONY : all clean install $(OUTPUT_FOLDER)
+#AUTOBUILD ALL THE SOURCE FILES
+SOURCES = $(wildcard $(SOURCES_FOLDER)/*.cpp)
+OBJECTS = $(patsubst $(SOURCES_FOLDER)/%.cpp, $(BUILDING_FOLDER)/%.o, $(SOURCES))
 
-all : $(OUTPUT_FOLDER) $(OUTPUT_FOLDER)/$(TITLE)
+VPATH = include src test build
 
-# Creating needed folders in order to build the app
-$(OUTPUT_FOLDER) :
-	@echo "Creating the folder : " $@
+#PHONY TARGETS
+.PHONY : clean install all create_directories
+
+all : create_directories $(OBJECTS)
+
+clean :
+	rm -rf $(BUILDING_FOLDER)
+
+create_directories : 
 	mkdir -p $(OUTPUT_FOLDER)
 
-# Building tha app from all the object files
-$(OUTPUT_FOLDER)/$(TITLE) : $(wildcard $(BUILDING_FOLDER)/*.o)
-	@echo "Compiling the app. It will be awailable in " $(OUTPUT_FOLDER)
-	$(CXX) $(CPPFLAGS) $(LDFLAGS) $^ -o $@
+#TARGETS AND PREREQIUSITS
+$(TITLE) : $(OBJECTS)
 
-# Compiling the object files
-$(BUILDING_FOLDER)/%.o : %.cpp %.h
-	@echo "Compiling the file : " $@
-	$(CXX) $(CPPFLAGS) -c $^ -o $@
+$(OBJECTS) : $(SOURCES)
 
-# Cleaning already built files
-clean : 
-	rm $(BUILDING_FOLDER)/*.o
-	rm $(OUTPUT_FOLDER)/$(TITLE)
+# RULES
+% : $(BUILDING_FOLDER)/%.o 
+	$(CXX) $(LDFLAGS) $^ -o $(OUT_DIR)/$@
 
-install :
+$(BUILDING_FOLDER)/%.o : $(SOURCES_FOLDER)/%.cpp
+	$(CXX) $(CPPFLAGS) -c $< -o $@

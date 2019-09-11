@@ -28,25 +28,28 @@
 
 #pragma once
 
+#include "exceptions.h"
+
 #define OFFSET 0x200
 #define MEM_SIZE 4096
 #define STACK_SIZE 16
 
 class Memory final{
-private:
+private :
 	unsigned char memory[MEM_SIZE];
 	unsigned short adress;	//Current block of the memory
 
 	unsigned short stack[STACK_SIZE];
 	unsigned short stack_adress;	//Current block of the stack
 
-public:
+public :
 	Memory();
 	~Memory();
 
-	void write(unsigned char data);	//Writing data to the memory array consistently
-	unsigned char read();	//Reading data from the memory array consistently
-	void move(unsigned short block);	//Moving the pointer to a block
+	void write_byte(unsigned char);	//Writing data to the memory array consistently byte by byte
+	unsigned char read_byte();	//Reading data from the memory array consistently
+	void move(unsigned short);	//Moving the pointer to a block
+	void nextBlock(unsigned char = 1);	//Increments adress
 
 	void storeReturnAdress();	//Used when a subroutine is called to go back later (RENAME)
 	void recurr();	//Returning to a previous task(after completing a subroutine)

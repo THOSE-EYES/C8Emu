@@ -1,18 +1,21 @@
 #pragma once
 
+//C or C++ Library
 #include <climits>
 #include <experimental/random>
 
+//Headers written by me
 #include "memory.h"
 #include "graphics.h"
-#include "input.h"
-#include "loader.h"
+#include "io.h"
+#include "keyboard.h"
 #include "sound.h"
+#include "exceptions.h"
 
-#define REGISTERs_AMOUNT 16
+#define REGISTERS_AMOUNT 16
 
 class CPU final{
-private:
+private :
 	//Registers
 	unsigned char V[REGISTERs_AMOUNT];	//General purpose registers
 	unsigned short VI;	//Index register
@@ -29,11 +32,11 @@ private:
 	Memory* memory
 	SoundPlayer* player;
 
-public:
-	CPU(Memory* filled_memory, SoundPlayer* selected_api);
+public :
+	CPU(Memory*, SoundPlayer*);
 	~CPU();
 
 	void emulateCycle();
-	void execute(unsigned short opcode);	//Executing an opcode which is stored in a Memory instance
+	void execute(unsigned short);	//Executing an opcode which is stored in a Memory instance
 	void checkInterrupts();
 };

@@ -7,15 +7,20 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 
+#include "exceptions.h"
+
 #define SETTINGS_FILE "settings.dat"
 
-struct Settings {
+struct Settings final{
 	//Window section
+	unsigned short windowHeight;
+	unsigned short windowWidth;
+	
 	bool isFullScreen;
 
 	//Emulator section
 
-	//
+	//Game section
 };
 
 namespace boost {
@@ -23,12 +28,11 @@ namespace boost {
 		template <class Archive>
 		void serialize(Archive& ar, Settings& instance, const unsigned int version) {
 			//Serializing some variables using "&" on the Boost archive
-			ar & instance.isFullscreen;
+			ar & instance.isFullScreen;
 		}
-
 	}
 }
 
-void save(Settings* instance);	//
+void save(Settings*);	//Serialize
 
-Settings* load();
+Settings* load();	//Deserialize

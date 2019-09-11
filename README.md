@@ -26,11 +26,11 @@ $ sudo pacman -S boost
 
 To compile :
 ```
-$ cd (folder)
+$ cd (your_folder)
 $ make
 ```
 
-The compiled program will be in `(folder)/build/out`
+The compiled program will be in `(your_folder)/build/out`
 
 ## Opcodes:
 
