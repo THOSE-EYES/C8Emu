@@ -1,7 +1,7 @@
 TITLE = CHIP-8.out
 
 CXX = g++ -std=c++11
-CPPFLAGS = -Wall -Iinclude 
+CPPFLAGS = -Wall -Iinclude -O3
 
 LDFLAGS = -lboost_serialization -lpthread -lopenal
 
@@ -17,7 +17,7 @@ TESTS_FOLDER = tests
 SOURCES = $(wildcard $(SOURCES_FOLDER)/*.cpp)
 OBJECTS = $(patsubst $(SOURCES_FOLDER)/%.cpp, $(BUILDING_FOLDER)/%.o, $(SOURCES))
 
-VPATH = include src test build
+#VPATH = include src test build
 
 #PHONY TARGETS
 .PHONY : clean install all create_directories
@@ -37,7 +37,7 @@ $(OBJECTS) : $(SOURCES) create_directories
 
 # RULES
 %.out : $(BUILDING_FOLDER)/*.o 
-	$(CXX) $(LDFLAGS) $^ -o $(OUTPUT_FOLDER)/$@
+	$(CXX) $(LDFLAGS) $(patsubst $(BUILDING_FOLDER)/*.o, , $^) -o $(OUTPUT_FOLDER)/$@
 
 $(BUILDING_FOLDER)/%.o : $(SOURCES_FOLDER)/%.cpp
 	$(CXX) $(CPPFLAGS) -c $< -o $@
