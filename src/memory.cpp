@@ -31,7 +31,7 @@ unsigned char Memory::read_byte() {
 
 void Memory::move(unsigned short block) {
 	//Check if block number is out range of the memory 
-	if(block >= MEM_SIZE | block < 0) {
+	if((block >= MEM_SIZE) | (block < 0)) {
 		//Raise an exception
 		throw Exception(MEMRANGEOUTERR);
 	}
@@ -49,7 +49,7 @@ void Memory::storeReturnAdress() {
 	//Check if the stack is full
 	if (stack_adress == STACK_SIZE) {
 		//Raise an exception
-		throw Exception();
+		throw Exception(STFULLERROR);
 	}
 
 	//Store the adress in the stack
@@ -63,7 +63,7 @@ void Memory::recurr() {
 	//Check if the stack is empty
 	if ((stack_adress == 0) & (stack[stack_adress] != 0x0)) {
 		//Raise an exception
-		throw Exception();
+		throw Exception(STEMPTYERROR);
 	}
 
 	//Recovering the previous adress of memory to continue executing the previous task

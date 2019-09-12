@@ -17,7 +17,7 @@
 class CPU final{
 private :
 	//Registers
-	unsigned char V[REGISTERs_AMOUNT];	//General purpose registers
+	unsigned char V[REGISTERS_AMOUNT];	//General purpose registers
 	unsigned short VI;	//Index register
 
 	//Timers
@@ -29,11 +29,11 @@ private :
 	bool isSkipping = false;
 
 	//Instances
-	Memory* memory
-	SoundPlayer* player;
+	Memory* memory;
+	AbstractPlayer* player;
 
 public :
-	CPU(Memory*, SoundPlayer*);
+	CPU(Memory*, AbstractPlayer*);
 	~CPU();
 
 	void emulateCycle();

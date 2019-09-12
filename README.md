@@ -2,7 +2,7 @@
 
 It's a simple emulator of the CHIP-8 written in C++.
 
-P.S. It's an uncompleted project. It can't even be compiled. There are a lot to do.
+P.S. It's an uncompleted project. There are a lot to do (but it can be compiled now).
 
 ## Used sources of information
 

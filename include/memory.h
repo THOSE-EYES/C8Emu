@@ -34,7 +34,7 @@
 #define MEM_SIZE 4096
 #define STACK_SIZE 16
 
-class Memory final{
+class Memory final {
 private :
 	unsigned char memory[MEM_SIZE];
 	unsigned short adress;	//Current block of the memory

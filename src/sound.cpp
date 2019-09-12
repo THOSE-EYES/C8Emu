@@ -16,6 +16,8 @@ AbstractPlayer* AbstractPlayer::createInstance(unsigned char api) {
 			//Throw an exception
 			throw Exception(SLIBCHERR);
 	}
+
+	return player;
 }
 
 OpenAL::OpenAL() {

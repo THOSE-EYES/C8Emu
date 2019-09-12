@@ -1,9 +1,9 @@
-TITLE = CHIP-8_$(shell date +'%d%m%Y')
+TITLE = CHIP-8.out
 
 CXX = g++ -std=c++11
-CPPFLAGS = -Wall -Iinclude
+CPPFLAGS = -Wall -Iinclude 
 
-LDFLAGS = -lboost_serialization -lpthread
+LDFLAGS = -lboost_serialization -lpthread -lopenal
 
 #ESSENTIAL FOLDERS
 BUILDING_FOLDER = build
@@ -22,7 +22,7 @@ VPATH = include src test build
 #PHONY TARGETS
 .PHONY : clean install all create_directories
 
-all : create_directories $(OBJECTS)
+all :  $(TITLE)
 
 clean :
 	rm -rf $(BUILDING_FOLDER)
@@ -33,11 +33,11 @@ create_directories :
 #TARGETS AND PREREQIUSITS
 $(TITLE) : $(OBJECTS)
 
-$(OBJECTS) : $(SOURCES)
+$(OBJECTS) : $(SOURCES) create_directories
 
 # RULES
-% : $(BUILDING_FOLDER)/%.o 
-	$(CXX) $(LDFLAGS) $^ -o $(OUT_DIR)/$@
+%.out : $(BUILDING_FOLDER)/*.o 
+	$(CXX) $(LDFLAGS) $^ -o $(OUTPUT_FOLDER)/$@
 
 $(BUILDING_FOLDER)/%.o : $(SOURCES_FOLDER)/%.cpp
 	$(CXX) $(CPPFLAGS) -c $< -o $@

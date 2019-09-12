@@ -18,4 +18,4 @@ public:
 	~MainWindow();
 
 	static MainWindow* window;	//Check if it's possible to leave this variable in the Window class
-}
+};

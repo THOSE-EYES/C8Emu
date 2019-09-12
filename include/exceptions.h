@@ -23,7 +23,7 @@
 
 class Exception final : public std::exception {
 protected :
-	std::string error_message = "An error has occured. The code of the error is : ";
+	std::string error_message;
 	unsigned char error_code;
 
 public :

@@ -1,6 +1,6 @@
 #include "cpu.h"
 
-CPU::CPU(Memory* filled_memory, SoundPlayer* selected_api) {
+CPU::CPU(Memory* filled_memory, AbstractPlayer* selected_api) {
 	//Initializing all the variables
 	memory = filled_memory;
 
@@ -43,7 +43,7 @@ void CPU::emulateCycle() {
 				execute(opcode);
 			}
 			catch (Exception exception) {
-				switch (e.code()) {
+				switch (exception.code()) {
 					case OPCODEERR:
 						//Do a specific task
 
@@ -350,13 +350,13 @@ void CPU::execute(unsigned short opcode) {
 
 		default :
 			switch(opcode) {
-				case 00EE:
+				case 0x00EE:
 					//Exit from a subroutine
 					memory->recurr();
 
 					break;
 
-				case 00E0:
+				case 0x00E0:
 					//Clear the screen
 					//display->clear();
 
