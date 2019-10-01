@@ -40,7 +40,7 @@ void Memory::move(unsigned short block) {
 	adress = block;
 }
 
-void Memory::nextBlock(unsigned char interval) {
+void Memory::nextBlock() {
 	//Call the function "move" with incremented adress
 	move(adress++);
 }
@@ -61,7 +61,7 @@ void Memory::storeReturnAdress() {
 
 void Memory::recurr() {
 	//Check if the stack is empty
-	if ((stack_adress == 0) & (stack[stack_adress] != 0x0)) {
+	if ((stack_adress == 0) & (stack[stack_adress] == 0x0)) {
 		//Raise an exception
 		throw Exception(STEMPTYERROR);
 	}
@@ -73,5 +73,7 @@ void Memory::recurr() {
 	stack[stack_adress] = 0x0;
 
 	//Moving to the next stack block
-	stack_adress--;
+	if (stack_adress != 0) {
+		stack_adress--;
+	}
 }
