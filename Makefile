@@ -17,8 +17,6 @@ TESTS_FOLDER = tests
 SOURCES = $(wildcard $(SOURCES_FOLDER)/*.cpp)
 OBJECTS = $(patsubst $(SOURCES_FOLDER)/%.cpp, $(BUILDING_FOLDER)/%.o, $(SOURCES))
 
-#VPATH = include src test build
-
 #PHONY TARGETS
 .PHONY : clean install all create_directories
 
