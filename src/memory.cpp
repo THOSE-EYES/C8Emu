@@ -47,6 +47,7 @@ void Memory::storeReturnAdress() {
 
 	//Move the adress to the next free block if it's not the end of stack
 	if ((stack_adress != (STACK_SIZE - 1))) stack_adress++;
+}
 
 void Memory::recurr() {
 	//Check if the stack is empty and raise an exception if it is

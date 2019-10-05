@@ -55,7 +55,7 @@ void CPU::emulateCycle() {
 			checkInterrupts();
 		}
 		else {
-			memory->nextBlock(2);
+			memory->move(2);
 		}
 	}
 }
