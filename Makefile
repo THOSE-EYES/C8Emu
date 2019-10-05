@@ -30,7 +30,6 @@ $(TITLE) : $(OBJECTS)
 
 # RULES
 %.out : $(BUILDING_FOLDER)/*.o 
-	@echo "HELLO!"
 	$(CXX) $(LDFLAGS) $^ -o $(OUTPUT_FOLDER)/$@
 
 $(BUILDING_FOLDER)/%.o : %.cpp
