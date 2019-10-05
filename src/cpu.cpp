@@ -121,7 +121,7 @@ void CPU::execute(unsigned short opcode) {
 			switch (opcode & 0xF) {
 				case 0:
 					//8XY0 - Sets VX to the value of VY
-					V[(opcode & 0x0F00) >> 8] == V[(opcode & 0x00F0) >> 4];
+					V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x00F0) >> 4];
 
 					break;
 
