@@ -3,20 +3,21 @@
 CPU::CPU(Memory* filled_memory, AbstractPlayer* selected_api) {
 	//Initializing all the variables
 	memory = filled_memory;
-
 	player = selected_api;
 }
 
 CPU::~CPU() {
-
+	delete memory;
+	//delete player;
 }
 
 void CPU::emulateCycle() {
 	//Declare and/or initialize variables
-	static unsigned short opcode;
+	unsigned short opcode;
+	isRunning = true;
 
 	//Call essential functions(e.g. moving memory pointer to the needed position)
-	try {
+	try {	//???
 		memory->move(OFFSET);
 	}
 	catch (Exception exception) {
@@ -26,37 +27,33 @@ void CPU::emulateCycle() {
 	//Create a game cycle
 	while(isRunning) {
 		//Check if the opcode must be skipped
-		if(!isSkipping) {
-			//Set or clear the opcode variable
-			opcode = 0x00;
+		if(isSkipping) memory->nextBlock(2);
 
-			//Fetch opcode
-			opcode = (memory->read_byte() << 8);
-			memory->nextBlock();
-			opcode |= memory->read_byte();
+		//Set or clear the opcode variable
+		opcode = 0x00;
+		
+		//Fetch opcode
+		opcode = (memory->read_byte() << 8);
+		opcode |= memory->read_byte();
 
-			//Move to the next block of memory (for future)
-			memory->nextBlock();
+		//Move to the next block of memory
+		memory->nextBlock();
 
-			//Pass the opcode and catch exceptions
-			try {
-				execute(opcode);
-			}
-			catch (Exception exception) {
-				switch (exception.code()) {
-					case OPCODEERR:
-						//Do a specific task
-
-						break;
-				}
-			}
-
-			//Check for interrupts
-			checkInterrupts();
+		//Pass the opcode and catch exceptions
+		try {
+			execute(opcode);
 		}
-		else {
-			memory->move(2);
+		catch (Exception exception) {
+			switch (exception.code()) {
+				case OPCODEERR:
+					//Do a specific task
+
+					break;
+			}
 		}
+
+		//Check for interrupts
+		checkInterrupts();
 	}
 }
 
@@ -79,29 +76,23 @@ void CPU::execute(unsigned short opcode) {
 			memory->storeReturnAdress();
 			memory->move(opcode & 0x0FFF);
 
-		break;
+			break;
 
 		case 0x3:
 			//3XNN - Skips the next instruction if VX equals NN
-			if (V[(opcode & 0x0F00) >> 8] == (opcode & 0x00FF)) {
-				isSkipping = true;
-			}
+			if (V[(opcode & 0x0F00) >> 8] == (opcode & 0x00FF)) isSkipping = true;
 
 			break;
 
 		case 0x4:
 			//4XNN - Skips the next instruction if VX doesn't equal NN
-			if (V[(opcode & 0x0F00) >> 8] != (opcode & 0x00FF)) {
-				isSkipping = true;
-			}
+			if (V[(opcode & 0x0F00) >> 8] != (opcode & 0x00FF)) isSkipping = true;
 
 			break;
 
 		case 0x5:
 			//5XY0 - Skips the next instruction if VX equals VY
-			if (V[(opcode & 0x0F00) >> 8] == V[(opcode & 0x00F0) >> 4]) {
-				isSkipping = true;
-			}
+			if (V[(opcode & 0x0F00) >> 8] == V[(opcode & 0x00F0) >> 4]) isSkipping = true;
 
 			break;
 
@@ -147,10 +138,8 @@ void CPU::execute(unsigned short opcode) {
 					//8XY4 - Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't
 
 					//Check if CF(carry flag) must be set
-					if((V[(opcode & 0x0F00) >> 8] + V[(opcode & 0x00F0) >> 4]) > UCHAR_MAX) {
-						V[0xF] = 1;	//VF as a carry flag
-					} 
-
+					if((V[(opcode & 0x0F00) >> 8] + V[(opcode & 0x00F0) >> 4]) > UCHAR_MAX) V[0xF] = 1;	//VF as a carry flag
+					
 					V[(opcode & 0x0F00) >> 8] += V[(opcode & 0x00F0) >> 4];
 
 					break;
@@ -159,12 +148,8 @@ void CPU::execute(unsigned short opcode) {
 					//8XY5 - VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't
 
 					//Check if BF(borrow flag) must be set
-					if (V[(opcode & 0x0F00) >> 8] > V[(opcode & 0x00F0) >> 4]) {
-						V[0xF] = 1;
-					}
-					else if (V[(opcode & 0x0F00) >> 8] < V[(opcode & 0x00F0) >> 4]){
-						V[0xF] = 0;
-					}
+					if (V[(opcode & 0x0F00) >> 8] > V[(opcode & 0x00F0) >> 4]) V[0xF] = 1;
+					else if (V[(opcode & 0x0F00) >> 8] < V[(opcode & 0x00F0) >> 4]) V[0xF] = 0;
 
 					V[(opcode & 0x0F00) >> 8] -= V[(opcode & 0x00F0) >> 4];
 
@@ -173,7 +158,6 @@ void CPU::execute(unsigned short opcode) {
 				case 6:
 					//8XY6 - Stores the least significant bit of VX in VF and then shifts VX to the right by 1
 					V[0xF] = V[(opcode & 0x0F00) >> 8] & 0x1;
-
 					V[(opcode & 0x0F00) >> 8] >>= 1;
 
 					break;
@@ -182,12 +166,8 @@ void CPU::execute(unsigned short opcode) {
 					//8XY7 - Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't
 						
 					//Check if BF(borrow flag) must be set
-					if (V[(opcode & 0x0F00) >> 8] > V[(opcode & 0x00F0) >> 4]) {
-						V[0xF] = 0;
-					}
-					else if (V[(opcode & 0x0F00) >> 8] < V[(opcode & 0x00F0) >> 4]){
-						V[0xF] = 1;
-					}
+					if (V[(opcode & 0x0F00) >> 8] > V[(opcode & 0x00F0) >> 4]) V[0xF] = 0;
+					else if (V[(opcode & 0x0F00) >> 8] < V[(opcode & 0x00F0) >> 4]) V[0xF] = 1;
 
 					V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x00F0) >> 4] - V[(opcode & 0x0F00) >> 8];
 
@@ -206,9 +186,7 @@ void CPU::execute(unsigned short opcode) {
 
 		case 0x9:
 			//9XY0 - Skips the next instruction if VX doesn't equal VY
-			if (V[(opcode & 0x0F00) >> 8] != V[(opcode & 0x00F0) >> 4]) {
-				isSkipping = true;
-			}
+			if (V[(opcode & 0x0F00) >> 8] != V[(opcode & 0x00F0) >> 4]) isSkipping = true;
 
 			break;
 
@@ -286,7 +264,7 @@ void CPU::execute(unsigned short opcode) {
 					ST = V[opcode & 0x0F00];
 
 					//Triggering the buzzer using a thread
-					player->playBuzzer();
+					//player->playBuzzer();
 
 					break;
 
@@ -376,7 +354,5 @@ void CPU::checkInterrupts() {
 	}
 	
 	//Check the sound timer
-	if (ST == 0) {
-		player->stop();
-	}
+	//if (ST == 0) player->stop();
 }

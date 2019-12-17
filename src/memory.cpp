@@ -11,7 +11,7 @@ void Memory::write_byte(unsigned char data) {
 	memory[adress] = data;
 
 	//Move the pointer
-	move(adress++);
+	nextBlock();
 }
 
 unsigned char Memory::read_byte() {
@@ -19,7 +19,7 @@ unsigned char Memory::read_byte() {
 	unsigned char data = memory[adress];
 
 	//Move the pointer
-	move(adress++);
+	nextBlock();
 
 	//Return data
 	return data;
@@ -33,9 +33,9 @@ void Memory::move(unsigned short block) {
 	adress = block;
 }
 
-void Memory::nextBlock() {
+void Memory::nextBlock(short block) {
 	//Call the function "move" with incremented adress
-	move(adress++);
+	move(adress + block);
 }
 
 void Memory::storeReturnAdress() {
@@ -47,7 +47,7 @@ void Memory::storeReturnAdress() {
 
 	//Move the adress to the next free block if it's not the end of stack
 	if ((stack_adress != (STACK_SIZE - 1))) stack_adress++;
-}
+} 
 
 void Memory::recurr() {
 	//Check if the stack is empty and raise an exception if it is

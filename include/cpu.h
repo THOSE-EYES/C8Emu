@@ -33,7 +33,7 @@ private :
 	AbstractPlayer* player;
 
 public :
-	CPU(Memory*, AbstractPlayer*);
+	CPU(Memory*, AbstractPlayer* = NULL);
 	~CPU();
 
 	void emulateCycle();

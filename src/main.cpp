@@ -1,4 +1,5 @@
-//#include "cpu.h"
+#include "cpu.h"
+#include "memory.h"
 
 int main(int argc, char *argv[]) {
 	//Check the arguments

@@ -44,12 +44,11 @@ private :
 
 public :
 	Memory();
-	~Memory();
 
 	void write_byte(unsigned char);	//Writing data to the memory array consistently byte by byte
 	unsigned char read_byte();	//Reading data from the memory array consistently
 	void move(unsigned short);	//Moving the pointer to a block
-	void nextBlock();	//Increments adress
+	void nextBlock(short = 1);	//Increments adress
 
 	void storeReturnAdress();	//Used when a subroutine is called to go back later (RENAME)
 	void recurr();	//Returning to a previous task(after completing a subroutine)

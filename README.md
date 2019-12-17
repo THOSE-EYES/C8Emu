@@ -12,25 +12,27 @@ P.S. It's an uncompleted project. There are a lot to do (but it can be compiled 
 
 ## Compiling and Running
 
-The emulator requires `boost`
+The emulator requires `boost`, `OpenGL`, `OpenAL` and some other things...
 
 * For Ubuntu-like distributions :
 ```
-$ sudo apt-get install libboost-all-dev
+$ sudo apt-get install libboost-all-dev ...
 ```
 
 * For Arch-like distributions :
 ```
-$ sudo pacman -S boost
+$ sudo pacman -S boost opengl openal
 ```
 
 To compile :
 ```
 $ cd (your_folder)
+$ cd build
+$ cmake ..
 $ make
 ```
 
-The compiled program will be in `(your_folder)/build/out`
+The compiled program will be in `(your_folder)/build/` with the title chip8
 
 ## Opcodes:
 
