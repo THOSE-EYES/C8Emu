@@ -16,7 +16,7 @@ The emulator requires `boost`, `OpenGL`, `OpenAL` and some other things...
 
 * For Ubuntu-like distributions :
 ```
-$ sudo apt-get install libboost-all-dev ...
+$ sudo apt-get install libboost-all-dev libglu1-mesa-dev freeglut3-dev mesa-common-dev libopenal-dev cmake libgtest-dev
 ```
 
 * For Arch-like distributions :
