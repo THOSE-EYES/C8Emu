@@ -2,35 +2,35 @@
 
 #include <exception>
 #include <string>
+#include <iostream>
+#include <cstdlib>
 
-#define OPCODEERR 1
-#define STFULLERROR 2
-#define STEMPTYERROR 3
-#define MEMRANGEOUTERR 4
-#define FOPENERR 5
-#define SLIBCHERR 6
+#define ARGSERROR 1
+#define OPCODEERR 2
+#define STFULLERROR 3
+#define STEMPTYERROR 4
+#define MEMRANGEOUTERR 5
+#define FOPENERR 6
+#define SLIBCHERR 7
 
 /*ERROR CODES
-	
-	* 1 - (CPU) An opcode isn't recognized
-	* 2 - (Memory) Stack is full and it's requested to put something in
-	* 3 - (Memory) Stack is empty and it's requested to get an adress
-	* 4 - (Memory) The requested block number is out of range of the memory 
-	* 5 - (I/O) A file isn't opened
-	* 6 - (Sound) API number is not correct
+	* 1 - (Main) Not enough arguments
+	* 2 - (CPU) An opcode isn't recognized
+	* 3 - (Memory) Stack is full and it's requested to put something in
+	* 4 - (Memory) Stack is empty and it's requested to get an adress
+	* 5 - (Memory) The requested block number is out of range of the memory 
+	* 6 - (I/O) A file isn't opened
+	* 7 - (Sound) API number is not correct
 	...
 */
 
 class Exception final : public std::exception {
 protected :
-	std::string error_message;
-	unsigned char error_code;
+	std::string error;
 
 public :
-   explicit Exception(unsigned char);
+   explicit Exception(unsigned int);
 
    const char* what() const throw();
-
-   const char code() const;	//It returns the code of an error
 };
 

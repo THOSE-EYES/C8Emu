@@ -32,11 +32,14 @@ private :
 	Memory* memory;
 	AbstractPlayer* player;
 
+	//Functions
+	void execute(unsigned short);	//Executing an opcode which is stored in a Memory instance
+	void checkInterrupts();
+
 public :
 	CPU(Memory*, AbstractPlayer* = NULL);
 	~CPU();
 
+	//Start the emulation
 	void emulateCycle();
-	void execute(unsigned short);	//Executing an opcode which is stored in a Memory instance
-	void checkInterrupts();
 };

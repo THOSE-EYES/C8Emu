@@ -1,14 +1,10 @@
 #include "exceptions.h"
 
-Exception::Exception(unsigned char code) {
-	error_code = code;
-	error_message = "An error has occured. The code of the error is : " + error_code;
+Exception::Exception(unsigned int code) {
+	error = " An error has occured. The code of the error is : ";
+	error += std::to_string(code);
 }
 
 const char* Exception::what() const throw() {
-	return error_message.c_str();
-}
-
-const char Exception::code() const {
-	return error_code;
+	return error.c_str();
 }

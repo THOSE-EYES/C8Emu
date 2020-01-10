@@ -17,12 +17,7 @@ void CPU::emulateCycle() {
 	isRunning = true;
 
 	//Call essential functions(e.g. moving memory pointer to the needed position)
-	try {	//???
-		memory->move(OFFSET);
-	}
-	catch (Exception exception) {
-		//Do a specific task
-	}
+	memory->move(OFFSET);
 
 	//Create a game cycle
 	while(isRunning) {
@@ -39,18 +34,8 @@ void CPU::emulateCycle() {
 		//Move to the next block of memory
 		memory->nextBlock();
 
-		//Pass the opcode and catch exceptions
-		try {
-			execute(opcode);
-		}
-		catch (Exception exception) {
-			switch (exception.code()) {
-				case OPCODEERR:
-					//Do a specific task
-
-					break;
-			}
-		}
+		//Pass the opcode
+		execute(opcode);
 
 		//Check for interrupts
 		checkInterrupts();
@@ -61,7 +46,24 @@ void CPU::execute(unsigned short opcode) {
 	//Execute the opcode
 	switch((opcode & 0xF000) >> 12) {
 		case 0x0:
-			//0NNN - Calls RCA 1802 program at address NNN. Not necessary for most ROMs
+			switch(opcode) {
+				case 0x00EE:
+					//Exit from a subroutine
+					memory->recurr();
+
+					break;
+
+				case 0x00E0:
+					//Clear the screen
+					//display->clear();
+
+					break;
+
+				//0NNN - Calls RCA 1802 program at address NNN. Not necessary for most ROMs
+				default:
+
+				break;
+			}
 
 			break;
 
@@ -296,7 +298,7 @@ void CPU::execute(unsigned short opcode) {
 
 					memory->move(VI);
 
-					for (int counter = 0; counter != REGISTERS_AMOUNT; counter++) {
+					for (uint8_t counter = 0; counter != REGISTERS_AMOUNT; counter++) {
 						memory->write_byte(V[counter]);
 						memory->nextBlock();
 					}
@@ -314,7 +316,7 @@ void CPU::execute(unsigned short opcode) {
 
 					memory->move(VI);
 
-					for (int counter = 0; counter != REGISTERS_AMOUNT; counter++) {
+					for (uint8_t counter = 0; counter != REGISTERS_AMOUNT; counter++) {
 						V[counter] = memory->read_byte();
 						memory->nextBlock();
 					}
@@ -327,23 +329,7 @@ void CPU::execute(unsigned short opcode) {
 			break;
 
 		default :
-			switch(opcode) {
-				case 0x00EE:
-					//Exit from a subroutine
-					memory->recurr();
-
-					break;
-
-				case 0x00E0:
-					//Clear the screen
-					//display->clear();
-
-					break;
-
-				default:
-					throw Exception(OPCODEERR);
-
-			}		
+			throw Exception(OPCODEERR);
 	}
 }
 

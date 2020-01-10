@@ -21,7 +21,8 @@ $ sudo apt-get install libboost-all-dev ...
 
 * For Arch-like distributions :
 ```
-$ sudo pacman -S boost opengl openal
+$ sudo pacman -S boost opengl openal cmake 
+$ yaourt -S googletest-git
 ```
 
 To compile :
