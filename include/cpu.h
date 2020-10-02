@@ -1,45 +1,52 @@
 #pragma once
 
-//C or C++ Library
 #include <climits>
 #include <experimental/random>
 
-//Headers written by me
-#include "memory.h"
+#include "ram.h"
+#include "stack.h"
 #include "graphics.h"
-#include "io.h"
 #include "keyboard.h"
-#include "sound.h"
 #include "exceptions.h"
+#include "global.h"
 
-#define REGISTERS_AMOUNT 16
-
-class CPU final{
+class CPU final {
 private :
-	//Registers
-	unsigned char V[REGISTERS_AMOUNT];	//General purpose registers
-	unsigned short VI;	//Index register
+	unsigned char _registers[REGISTERS_AMOUNT];		// General purpose registers
+	unsigned short _index_register;					// Index register
+	unsigned char _d_timer;							// Delay timer
+//	unsigned char _s_timer;							// Sound timer
+	bool _isRunning = false;						// Flag of execution
+	bool _isSkipping = false;						// Flag of the next opcode to be skipped
+	RAM* _memory;									// Instance of virtual memory
+	Stack* _stack;
 
-	//Timers
-	unsigned char DT;	//Delay timer
-	unsigned char ST;	//Sound timer
+	/**
+	 * Executing opcodes, specific for the CHIP-8 interpretator
+	 * @param opcode - data to process
+	 */
+	void execute(const unsigned short);		//Executing an opcode which is stored in a Memory instance
 
-	//Flags
-	bool isRunning = false;
-	bool isSkipping = false;
-
-	//Instances
-	Memory* memory;
-	AbstractPlayer* player;
-
-	//Functions
-	void execute(unsigned short);	//Executing an opcode which is stored in a Memory instance
-	void checkInterrupts();
+	/**
+	 * Checking if there was an interrupt event
+	 */
+	void checkInterrupts(void) noexcept;
 
 public :
-	CPU(Memory*, AbstractPlayer* = NULL);
+	/**
+	 * Constructor
+	 * @param filled_memory - instance of RAM memory with a program in it
+	 * @param stack - an instance of Stack
+	 */
+	CPU(RAM*, Stack*);
+
+	/**
+	 * Destructor
+	 */
 	~CPU();
 
-	//Start the emulation
-	void emulateCycle();
+	/**
+	 * Statring to execute the main loop
+	 */
+	void start(void);
 };

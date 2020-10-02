@@ -5,3 +5,8 @@
 #include <GL/glu.h>
 
 #include "exceptions.h"
+
+class Window final {
+public:
+    Window();
+};

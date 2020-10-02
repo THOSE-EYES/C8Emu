@@ -1,18 +1,13 @@
 # CHIP-8-Emulator
+It's a simple emulator of the CHIP-8 written in C++. The purpose of the project is to be able to run old games with good performance and lots of customizations to make the process of gaming better.
 
-It's a simple emulator of the CHIP-8 written in C++.
-
-P.S. It's an uncompleted project. There are a lot to do (but it can be compiled now).
-
-## Used sources of information
-
+## Bibliography
 * [How to write an emulator (CHIP-8 interpreter)](http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/)
 * [Wikipedia: CHIP-8](https://en.wikipedia.org/wiki/CHIP-8)
 * [Cowgod's CHIP-8 tech reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
 
-## Compiling and Running
-
-The emulator requires `boost`, `OpenGL`, `OpenAL` and some other things...
+## Get started
+The emulator requires `boost`, `OpenGL`, `OpenAL` and some other things to be installed on your machine.
 
 * For Ubuntu-like distributions :
 ```
@@ -21,8 +16,7 @@ $ sudo apt-get install libboost-all-dev libglu1-mesa-dev freeglut3-dev mesa-comm
 
 * For Arch-like distributions :
 ```
-$ sudo pacman -S boost opengl openal cmake 
-$ yaourt -S googletest-git
+$ sudo pacman -S boost opengl openal cmake gtest
 ```
 
 To compile :
@@ -33,9 +27,13 @@ $ cmake ..
 $ make
 ```
 
-The compiled program will be in `(your_folder)/build/` with the title chip8
+The compiled program will be in `(your_folder)/build/` with the title chip8. To run it type :
+```
+./chip8 filename=<path_to_a_game>
+```
 
 ## Opcodes:
+The emulator processes native opcodes for the original CHIP-8. The list of implemented opcodes so far you can see below.
 
 | Implemented | Opcode | Description |
 | --- | --- | --- |
@@ -74,3 +72,7 @@ The compiled program will be in `(your_folder)/build/` with the title chip8
 | ❌ | `0xFX33` | Stores the binary-coded decimal representation of `VX`, with the most significant of three digits at the address in `I`, the middle digit at `I` plus 1, and the least significant digit at `I` plus 2. (In other words, take the decimal representation of VX, place the hundreds digit in memory at location in `I`, the tens digit at location `I+1`, and the ones digit at location `I+2`.) |
 | ✅ | `0xFX55` | Stores `V0` to `VX` (including `VX`) in memory starting at address `I`. `I` is increased by 1 for each value written. |
 | ✅ | `0xFX65` | Fills `V0` to `VX` (including `VX`) with values from memory starting at address `I`. `I` is increased by 1 for each value written. |
+
+## Bugs
+* Without some of the opcodes it's not possible to run any game without getting errors
+* There are no code for displaying anything or getting some input
