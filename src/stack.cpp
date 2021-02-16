@@ -1,6 +1,9 @@
-#include "stack.h"
+#include "stack.hpp"
 
 Stack::Stack(int size) {
+	// Throw an exception if the size is less than 1
+	if (size < 1) throw Exception(STWRONGSZERR);
+
     _size = size;                               // Size of the stack
     _stack = new unsigned short[size];          // New stack
     _adress = 0;                                // Current adress in the stack

@@ -3,21 +3,21 @@
 #include <climits>
 #include <experimental/random>
 
-#include "ram.h"
-#include "stack.h"
-#include "graphics.h"
-#include "keyboard.h"
-#include "exceptions.h"
-#include "global.h"
+#include "ram.hpp"
+#include "stack.hpp"
+#include "graphics.hpp"
+#include "keyboard.hpp"
+#include "exceptions.hpp"
+#include "global.hpp"
 
 class CPU final {
 private :
-	unsigned char _registers[REGISTERS_AMOUNT];		// General purpose registers
+	unsigned char _registers[constants::cpu::REG],	// General purpose registers
+					_d_timer;						// Delay timer
 	unsigned short _index_register;					// Index register
-	unsigned char _d_timer;							// Delay timer
 //	unsigned char _s_timer;							// Sound timer
-	bool _isRunning = false;						// Flag of execution
-	bool _isSkipping = false;						// Flag of the next opcode to be skipped
+	bool _isRunning = false,						// Flag of execution
+		_isSkipping = false;						// Flag of the next opcode to be skipped
 	RAM* _memory;									// Instance of virtual memory
 	Stack* _stack;
 

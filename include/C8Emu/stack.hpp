@@ -1,6 +1,6 @@
 #pragma once
 
-#include "exceptions.h"
+#include "exceptions.hpp"
 
 class Stack final {
 private:

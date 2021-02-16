@@ -1,6 +1,10 @@
-#include "cpu.h"
+#include "cpu.hpp"
 
 CPU::CPU(RAM* filled_memory, Stack* stack) {
+	// Throw an exception if one of the pointer is nullptr
+	if( (filled_memory == nullptr) || (stack == nullptr))
+		throw Exception(NULLPTRERR);
+
 	_memory = filled_memory;		// Filled array of opcodes
 	_stack = stack;					// Stack
 }
@@ -12,9 +16,9 @@ CPU::~CPU() {
 
 void CPU::start(void) {
 	// Declare and/or initialize variables
-	unsigned short opcode,					// Storing the current opcode
-					offset = OFFSET;		// Current position in the memory
-	_isRunning = true;						// Indicator of execution
+	unsigned short opcode,						// Storing the current opcode
+		offset = constants::memory::OFFSET;		// Current position in the memory
+	_isRunning = true;							// Indicator of execution
 
 	// Start the execution
 	while(_isRunning) {
@@ -49,8 +53,6 @@ void CPU::start(void) {
 }
 
 void CPU::execute(const unsigned short opcode) {
-	std::cout << std::hex << std::setfill('0') << std::setw (4) << opcode << " || ";
-
 	//Execute the opcode
 	switch((opcode & 0xF000) >> 12) {
 		case 0x0:
@@ -311,7 +313,7 @@ void CPU::execute(const unsigned short opcode) {
 
 					_memory->move(_index_register);
 
-					for (uint8_t offset = 0; offset != REGISTERS_AMOUNT; offset++) {
+					for (uint8_t offset = 0; offset != constants::cpu::REG; offset++) {
 						_memory->write(_registers[offset]);
 						_memory->move(_index_register + offset);
 					}
@@ -329,7 +331,7 @@ void CPU::execute(const unsigned short opcode) {
 
 					_memory->move(_index_register);
 
-					for (uint8_t offset = 0; offset != REGISTERS_AMOUNT; offset++) {
+					for (uint8_t offset = 0; offset != constants::cpu::REG; offset++) {
 						_registers[offset] = _memory->read();
 						_memory->move(_index_register + offset);
 					}

@@ -1,39 +1,127 @@
-# CHIP-8-Emulator
-It's a simple emulator of the CHIP-8 written in C++. The purpose of the project is to be able to run old games with good performance and lots of customizations to make the process of gaming better.
+# CHIP-8 C++ Cross-Platform Emulator
+It's a simple emulator of the CHIP-8 written in C++ using OpenGL. The purpose of the project is to be able to run old games with good performance and lots of customizations to make the process of gaming better.
 
-## Bibliography
-* [How to write an emulator (CHIP-8 interpreter)](http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/)
-* [Wikipedia: CHIP-8](https://en.wikipedia.org/wiki/CHIP-8)
-* [Cowgod's CHIP-8 tech reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
+## Table of contents
+* [Guide](#guide)
+	* [Libraries](#libraries)
+		* [Debian-like Linux distributions](#debian)
+		* [Archlinux-like Linux distributions](#arch)
+		* [Windows](#windows)
+	* [Compilation process](#compilation)
+		* [Linux](#linux)
+		* [Windows](#windows-1)
+	* [Example](#example_of_use)
+		* [Linux](#linux-1)
+		* [Windows](#windows-2)
+* [Project Structure](#project_structure)
+	* [Folders description](#folders)
+	* [Folders description](#files)
+* [Class Hierarchy](#class_hierarchy)
+* [CHIP-8 Opcode Table](#opcodes)
 
-## Get started
-The emulator requires `boost`, `OpenGL`, `OpenAL` and some other things to be installed on your machine.
+## Guide
+### Libraries
+The emulator requires `boost`, `OpenGL`, `OpenAL` and other libraries to be installed on your machine.
 
-* For Ubuntu-like distributions :
+#### Debian
 ```
 $ sudo apt-get install libboost-all-dev libglu1-mesa-dev freeglut3-dev mesa-common-dev libopenal-dev cmake libgtest-dev
 ```
 
-* For Arch-like distributions :
+#### Arch
 ```
 $ sudo pacman -S boost opengl openal cmake gtest
 ```
 
-To compile :
+#### Windows 
+* `Boost Library` : [link](https://www.boost.org/)
+* `GTest Framework` : [link](https://github.com/google/googletest)
+* `OpenGL Library` : [link](https://www.khronos.org/opengl/wiki/Getting_Started)
+
+### Compilation
+To build the project from source follow the steps described below, using the guide for your type of OS.
+
+#### Linux
 ```
-$ cd (your_folder)
-$ cd build
+$ cd <project_folder>
+$ mkdir builld && cd build
 $ cmake ..
 $ make
 ```
 
+#### Windows
+Click on the 'Build' tab in MSVS, then chose 'Build' or 'Rebild' option.
+
+### Example of use
+This section describes in detail how to use the built executable and make it work with the game you want.
+
+#### Linux
 The compiled program will be in `(your_folder)/build/` with the title chip8. To run it type :
 ```
 ./chip8 filename=<path_to_a_game>
 ```
 
+#### Windows
+In progress...
+
+## Project Structure
+```
+.
+├── include
+│   └── C8Emu
+│       ├── application.hpp
+│       ├── cpu.hpp
+│       ├── exceptions.hpp
+│       ├── global.hpp
+│       ├── graphics.hpp
+│       ├── keyboard.hpp
+│       ├── ram.hpp
+│       ├── settings.hpp
+│       ├── stack.hpp
+│       └── tokenizer.hpp
+├── src
+│   ├── application.cpp
+│   ├── cpu.cpp
+│   ├── exceptions.cpp
+│   ├── graphics.cpp
+│   ├── keyboard.cpp
+│   ├── main.cpp
+│   ├── ram.cpp
+│   ├── settings.cpp
+│   └── stack.cpp
+├── tests
+│   ├── app_test.cpp
+│   ├── cpu_test.cpp
+│   ├── loader_test.cpp
+│   ├── mem_test.cpp
+│   ├── stack_test.cpp
+│   └── tokenizer_test.cpp
+├── CHANGELOG.md
+├── CMakeLists.txt
+├── LICENSE
+├── NOTICE
+├── README.md
+└── TODO.md
+
+```
+### Folders
+* `include` : pubic headers of the project
+* `src` : private headers and sourcefiles of the project
+* `tests` : GTest-powered unit tests for the project
+
+### Files
+* `*.cpp` : source code files with program's algorithm
+* `*.hpp` : public/private headers, that contain class structures, method declarations and constants
+* `CHANGELOG.md` : description of the changes made in a certain build
+* `TODO.md` : list of changes to be made in the next builds
+* `CMakeLists.txt` : CMake build system instructions on how to build the project
+* `README.md` : this file
+
+## Class Hierarchy
+In progress...
+
 ## Opcodes:
-The emulator processes native opcodes for the original CHIP-8. The list of implemented opcodes so far you can see below.
+The emulator processes native opcodes for the original CHIP-8. The list of implemented opcodes can be seen below.
 
 | Implemented | Opcode | Description |
 | --- | --- | --- |
@@ -73,6 +161,7 @@ The emulator processes native opcodes for the original CHIP-8. The list of imple
 | ✅ | `0xFX55` | Stores `V0` to `VX` (including `VX`) in memory starting at address `I`. `I` is increased by 1 for each value written. |
 | ✅ | `0xFX65` | Fills `V0` to `VX` (including `VX`) with values from memory starting at address `I`. `I` is increased by 1 for each value written. |
 
-## Bugs
-* Without some of the opcodes it's not possible to run any game without getting errors
-* There are no code for displaying anything or getting some input
+## Links
+* [How to write an emulator (CHIP-8 interpreter)](http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/)
+* [Wikipedia: CHIP-8](https://en.wikipedia.org/wiki/CHIP-8)
+* [Cowgod's CHIP-8 tech reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)

@@ -4,7 +4,7 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 
-#include "exceptions.h"
+#include "exceptions.hpp"
 
 #define SETTINGS_FILE "settings.dat"
 

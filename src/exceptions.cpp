@@ -1,4 +1,4 @@
-#include "exceptions.h"
+#include "exceptions.hpp"
 
 Exception::Exception(unsigned int code) {
 	error = " An error has occured. The code of the error is : ";

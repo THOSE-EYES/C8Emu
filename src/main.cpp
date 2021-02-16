@@ -5,19 +5,20 @@
 	#include <gtest/gtest.h>
 #endif
 
-#include "application.h"
+#include "application.hpp"
 
 int main(int argc, char **argv) {
 	// 
 	#ifdef TESTING
 		::testing::InitGoogleTest(&argc, argv);
-		RUN_ALL_TESTS();
+		
+		return RUN_ALL_TESTS();
 
 	//
 	#else
 		Application application(argc, argv);		//
 		application.start();
+	
+		return 0;
 	#endif
-
-	return 0;
 }

@@ -1,4 +1,4 @@
-#include "settings.h"
+#include "settings.hpp"
 
 void save(Settings* instance) {
 	//Open a file

@@ -4,7 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#include "exceptions.h"
+#include "exceptions.hpp"
 
 class Window final {
 public:

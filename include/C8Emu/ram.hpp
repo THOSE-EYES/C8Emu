@@ -1,12 +1,13 @@
 #pragma once
 
-#include "exceptions.h"
+#include "exceptions.hpp"
+#include <fstream>
 
 class RAM final {
 private :
 	unsigned char* _memory;		// Array of values stored inside of the memory
-	unsigned short _size;		// The size of the used memory
-	unsigned short _adress;		// Current block of the memory
+	unsigned short _size,		// The size of the used memory
+					_adress;		// Current block of the memory
 
 public :
 	/**
@@ -42,5 +43,12 @@ public :
 	 * Get current index of block inside the memory
 	 * @return - block index
 	 */
-	unsigned short getAdress(void);
+	unsigned short getAdress(void) const ;
+
+    /**
+     * Loading a file into the specified memory
+     * @param filename - name of the file to be loaded
+     * @param offset offset in the memory
+     */
+    void load(const std::string, int);
 };
