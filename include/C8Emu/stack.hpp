@@ -1,12 +1,14 @@
 #pragma once
 
-#include "exceptions.hpp"
+#include <stdexcept>
+#include <memory>
 
 class Stack final {
 private:
-    unsigned int _size;             // Size of the stack
-	unsigned short* _stack;         // Array of the stack
-	unsigned short _adress;         // Current block of the stack
+	std::unique_ptr<unsigned short[]> _stack;				// Array of the stack
+    unsigned int _size;             						// Size of the stack
+	unsigned short _adress;        							// Current block of the stack
+
 public:
     /*
      * Constructor

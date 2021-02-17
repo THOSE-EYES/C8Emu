@@ -14,13 +14,22 @@
 * <your_profile> : <some_data>
 ```
 
-## [0.0.0] - 16.02.2021
+## [Build 3] - 17.02.2021
+
+### Changed
+* @THOSE-EYES : Replaced old exception system with STD exceptions
+* @THOSE-EYES : Replaced the pointer in Stack and Application classes with unique_ptr (C++11 style)
+
+### Fixed
+* @THOSE-EYES : Fixed Application class
+
+## [Build 2] - 16.02.2021
 
 ### Changed
 * @THOSE-EYES : Updated the description
 * @THOSE-EYES : Updated the project structure
 
-## [0.0.0] - 02.10.2020
+## [Build 1] - 02.10.2020
 
 ### Added/Removed
 * @THOSE-EYES : Added comments on algorithms in every source file inside the project

@@ -7,7 +7,6 @@
 #include "stack.hpp"
 #include "graphics.hpp"
 #include "keyboard.hpp"
-#include "exceptions.hpp"
 #include "global.hpp"
 
 class CPU final {

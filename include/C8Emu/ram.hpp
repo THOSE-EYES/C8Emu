@@ -1,6 +1,5 @@
 #pragma once
 
-#include "exceptions.hpp"
 #include <fstream>
 
 class RAM final {

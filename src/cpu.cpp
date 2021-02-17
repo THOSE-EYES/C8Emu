@@ -3,7 +3,7 @@
 CPU::CPU(RAM* filled_memory, Stack* stack) {
 	// Throw an exception if one of the pointer is nullptr
 	if( (filled_memory == nullptr) || (stack == nullptr))
-		throw Exception(NULLPTRERR);
+		throw new std::invalid_argument("Memory is nullptr");
 
 	_memory = filled_memory;		// Filled array of opcodes
 	_stack = stack;					// Stack
@@ -344,7 +344,7 @@ void CPU::execute(const unsigned short opcode) {
 			break;
 
 		default :
-			throw Exception(OPCODEERR);
+			throw new std::invalid_argument("Opcode is invalid");
 	}
 }
 

@@ -2,21 +2,20 @@
 
 Stack::Stack(int size) {
 	// Throw an exception if the size is less than 1
-	if (size < 1) throw Exception(STWRONGSZERR);
+	if (size < 1)
+		throw new std::invalid_argument("Size of memory is incorrect");
 
-    _size = size;                               // Size of the stack
-    _stack = new unsigned short[size];          // New stack
-    _adress = 0;                                // Current adress in the stack
+    _size = size;
+	_stack = std::unique_ptr<unsigned short[]>(new unsigned short[size]);
+    _adress = 0;
 }
 
-Stack::~Stack() {
-    // Deleting the stack at destruction
-    delete[] _stack;
-}
+Stack::~Stack() {}
 
 void Stack::store(unsigned short ram_adress) {
 	//Check if the stack is full and raise an exception if it is
-	if ((_adress == (_size - 1)) & (_stack[_adress] != 0x0)) throw Exception(STFULLERROR);
+	if ((_adress == (_size - 1)) & (_stack[_adress] != 0x0)) 
+		throw new std::runtime_error("Stack is full");
 
 	//Store the adress in the stack
 	_stack[_adress] = ram_adress;
@@ -29,7 +28,8 @@ unsigned short Stack::remove(void) {
     unsigned short ram_adress;      // Used as a result (return the last item from the stack and delete it)
 
 	//Check if the stack is empty and raise an exception if it is
-	if ((_adress == 0) & (_stack[_adress] == 0)) throw Exception(STEMPTYERROR);
+	if ((_adress == 0) & (_stack[_adress] == 0)) 
+		throw new std::runtime_error("Stack is empty");
 
 	//Moving to the previous stack block
 	if (_adress != 0) _adress--;

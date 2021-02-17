@@ -2,7 +2,8 @@
 
 RAM::RAM(unsigned short size) {
 	// The size can't be less than 1
-	if (size < 1) throw Exception(SMALLMEMSZERR);
+	if (size < 1) 
+		new std::invalid_argument("Size of memory is incorrect");
 
 	_memory = new unsigned char[size];		// The array to store data
 	_size = size;							// Total size of the allocated memory
@@ -28,7 +29,8 @@ unsigned char RAM::read() {
 
 void RAM::move(unsigned short block) {
 	//Check if block number is out range of the memory and raise an exception if it is
-	if((block >= _size) || (block < 0)) throw Exception(MEMRANGEOUTERR);
+	if((block >= _size) || (block < 0)) 
+		throw new std::invalid_argument("Desired block is out of range");
 
 	//Move the pointer to the block
 	_adress = block;
@@ -43,7 +45,8 @@ void RAM::load(const std::string filename, int offset) {
     char byte;                                                 			// Temporary variable for storing read bytes
 
     // Throw an exception if the file was not opened
-	if (!stream.is_open()) throw Exception(FOPENERR);
+	if (!stream.is_open()) 
+		throw new std::runtime_error("Could not open file");
 
     // TODO : Handle an empty file
 

@@ -16,7 +16,7 @@ void save(Settings* instance) {
 	}
 	else {
 		//Throw an exception
-		throw Exception(FOPENERR);
+		throw new std::runtime_error("Could not open file");
 	}
 }
 
@@ -40,6 +40,6 @@ Settings* load() {
 	}
 	else {
 		//Throw an exception
-		throw Exception(FOPENERR);
+		throw new std::runtime_error("Could not open file");
 	}
 }

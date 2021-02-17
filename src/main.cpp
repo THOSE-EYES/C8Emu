@@ -7,6 +7,9 @@
 
 #include "application.hpp"
 
+/**
+ * 
+ */
 int main(int argc, char **argv) {
 	// 
 	#ifdef TESTING
@@ -16,7 +19,13 @@ int main(int argc, char **argv) {
 
 	//
 	#else
-		Application application(argc, argv);		//
+		if (argc != 2)
+			throw new std::invalid_argument("Not enough arguments");
+
+		std::string filename = std::string(argv[1]); 
+		Application application(filename);
+
+		//
 		application.start();
 	
 		return 0;
