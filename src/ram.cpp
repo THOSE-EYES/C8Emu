@@ -1,27 +1,24 @@
 #include "ram.hpp"
 
-RAM::RAM(unsigned short size) {
+RAM::RAM() {
 	// The size can't be less than 1
-	if (size < 1) 
+	if (constants::memory::SIZE < 1) 
 		new std::invalid_argument("Size of memory is incorrect");
 
-	_memory = new unsigned char[size];		// The array to store data
-	_size = size;							// Total size of the allocated memory
-	_adress = 0;							// Current unused adress in the memory
+	_memory = std::unique_ptr<std::deque<uint8_t>>(new std::deque<uint8_t>());		
+	_cell = _memory->begin();
 }
 
-RAM::~RAM() {
-	delete _memory;
-}
+RAM::~RAM() {}
 
-void RAM::write(unsigned char data) {
+void RAM::write(uint8_t data) {
 	//Write data
-	_memory[_adress] = data;
+	*_cell = data;
 }
 
-unsigned char RAM::read() {
+uint8_t RAM::read() {
 	//Read a block
-	unsigned char data = _memory[_adress];
+	uint8_t data = *_cell;
 
 	//Return data
 	return data;
@@ -29,18 +26,18 @@ unsigned char RAM::read() {
 
 void RAM::move(unsigned short block) {
 	//Check if block number is out range of the memory and raise an exception if it is
-	if((block >= _size) || (block < 0)) 
+	if(block >= constants::memory::SIZE) 
 		throw new std::invalid_argument("Desired block is out of range");
 
 	//Move the pointer to the block
-	_adress = block;
+	_cell = _memory->begin() + block;
 }
 
 unsigned short RAM::getAdress(void) const {
-	return _adress;
+	return std::distance(_memory->begin(), _cell);;
 }
 
-void RAM::load(const std::string filename, int offset) {
+void RAM::load(const std::string filename, unsigned short offset) {
 	std::fstream stream(filename, std::ios::in | std::ios::binary);     // Stream to read the specified file
     char byte;                                                 			// Temporary variable for storing read bytes
 

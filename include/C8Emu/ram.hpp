@@ -1,19 +1,23 @@
 #pragma once
 
 #include <fstream>
+#include <memory>
+#include <deque>
+#include <iterator>
+
+#include "global.hpp"
 
 class RAM final {
 private :
-	unsigned char* _memory;		// Array of values stored inside of the memory
-	unsigned short _size,		// The size of the used memory
-					_adress;		// Current block of the memory
+	std::unique_ptr<std::deque<uint8_t>> _memory;
+	std::deque<uint8_t>::iterator _cell;
 
 public :
 	/**
 	 * Constructor of virtual RAM memory for emulation
 	 * @param size - size of memory to allocate
 	 */
-	RAM(unsigned short);
+	RAM();
 
 	/**
 	 * Destructor
@@ -24,13 +28,13 @@ public :
 	 * Write one byte to the memory (after updating the index)
 	 * @param data - byte to store inside of the memory
 	 */
-	void write(unsigned char);
+	void write(uint8_t);
 
 	/**
 	 * Read only one byte from the memory (after updating the index)
 	 * @return - a read byte from the memory
 	 */
-	unsigned char read();
+	uint8_t read();
 
 	/**
 	 * Moving the pointer to a certain block of data
@@ -49,5 +53,5 @@ public :
      * @param filename - name of the file to be loaded
      * @param offset offset in the memory
      */
-    void load(const std::string, int);
+    void load(const std::string, unsigned short);
 };

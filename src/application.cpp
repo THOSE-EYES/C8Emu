@@ -10,8 +10,8 @@ Application::Application(std::string filename) {
 Application::~Application() {}
 
 void Application::init() {
-	RAM* memory = new RAM(constants::memory::SIZE);                         // A new instance of memory to fill
-    Stack* stack = new Stack(constants::stack::SIZE);                       // Stack instance
+	RAM* memory = new RAM();                         // A new instance of memory to fill
+    Stack* stack = new Stack();                       // Stack instance
     
     // Load the file into memory to execute
     memory->load(_filename, constants::memory::OFFSET);

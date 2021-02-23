@@ -2,19 +2,19 @@
 
 #include <stdexcept>
 #include <memory>
+#include <deque>
+
+#include "global.hpp"
 
 class Stack final {
 private:
-	std::unique_ptr<unsigned short[]> _stack;				// Array of the stack
-    unsigned int _size;             						// Size of the stack
-	unsigned short _adress;        							// Current block of the stack
+	std::unique_ptr<std::deque<unsigned short>> _stack;				// Array of the stack
 
 public:
     /*
      * Constructor
-     * @param size - size of the stack in bytes
      */
-    Stack(int);
+    Stack();
 
     /*
      * Destructor

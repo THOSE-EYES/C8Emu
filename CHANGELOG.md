@@ -14,6 +14,15 @@
 * <your_profile> : <some_data>
 ```
 
+## [Build 4] - 23.02.2021
+
+### Added
+* @THOSE-EYES : Added a superclass for windows
+* @THOSE-EYES : Added constants for the new window class
+
+### Fixed
+* @THOSE-EYES : Fixed errors in the RAM class
+
 ## [Build 3] - 17.02.2021
 
 ### Changed

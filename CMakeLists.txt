@@ -13,7 +13,7 @@ endif (WIN32)
 if (UNIX)
 	set(CMAKE_CXX_COMPILER "g++")
 	set(CXXFLAGS "")
-	set(CMAKE_CXX_STANDARD_LIBRARIES "-lpthread -lopenal -lboost_serialization -lgtest")
+	set(CMAKE_CXX_STANDARD_LIBRARIES "-lpthread -lopenal -lboost_serialization -lgtest -lGL -lGLU -lglut")
 endif (UNIX)
 
 # Looking for source files

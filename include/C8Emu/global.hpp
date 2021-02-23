@@ -13,4 +13,10 @@ namespace constants {
     namespace cpu {
         const int REG = 16;         // Amount of internal registers of CHIP-8
     }
+
+	namespace window {
+		const uint8_t MAX_TITLE_SIZE = 255;
+		const uint16_t MIN_WINDOW_HEIGHT = 480;
+		const uint16_t MIN_WINDOW_WIDTH = 800;
+	}
 }
