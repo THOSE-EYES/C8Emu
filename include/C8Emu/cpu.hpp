@@ -2,6 +2,8 @@
 
 #include <climits>
 #include <experimental/random>
+#include <deque>
+#include <memory>
 
 #include "ram.hpp"
 #include "stack.hpp"
@@ -9,22 +11,25 @@
 #include "keyboard.hpp"
 #include "global.hpp"
 
-class CPU final {
-private :
-	unsigned char _registers[constants::cpu::REG],	// General purpose registers
-					_d_timer;						// Delay timer
-	unsigned short _index_register;					// Index register
-//	unsigned char _s_timer;							// Sound timer
-	bool _isRunning = false,						// Flag of execution
-		_isSkipping = false;						// Flag of the next opcode to be skipped
-	RAM* _memory;									// Instance of virtual memory
-	Stack* _stack;
+class CPU {
+protected :
+	std::unique_ptr<std::deque<uint8_t>> registers_;
+	uint16_t index_register_;					// Index register
+	
+	uint8_t delay_timer_;						// Delay timer
+	uint8_t sound_timer_;							// Sound timer
+
+	bool isRunning_ = false,						// Flag of execution
+		isSkipping_ = false;						// Flag of the next opcode to be skipped
+
+	std::unique_ptr<RAM> ram_;									// Instance of virtual memory
+	std::unique_ptr<Stack> stack_;
 
 	/**
 	 * Executing opcodes, specific for the CHIP-8 interpretator
 	 * @param opcode - data to process
 	 */
-	void execute(const unsigned short);		//Executing an opcode which is stored in a Memory instance
+	void execute(const uint16_t);		//Executing an opcode which is stored in a Memory instance
 
 	/**
 	 * Checking if there was an interrupt event

@@ -14,6 +14,11 @@
 * <your_profile> : <some_data>
 ```
 
+## [Build 5] - 23.02.2021
+
+### Changed
+* @THOSE-EYES : Replaced pointers and arrays in the CPU class with unique_ptr and std::deque respectively(C++11 style)
+
 ## [Build 4] - 23.02.2021
 
 ### Added
