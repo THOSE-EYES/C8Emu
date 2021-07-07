@@ -1,4 +1,4 @@
-# Change log
+# Changelog
 
 ## Example
 ```
@@ -13,6 +13,23 @@
 ### Fixed
 * <your_profile> : <some_data>
 ```
+## [Build 6] - 07.06.2021
+
+### Changed
+* @THOSE-EYES : Recreated app's file structure from the ground up
+* @THOSE-EYES : Moved every class to a corresponding namespace
+* @THOSE-EYES : Moved opcode functionality out of the only method and splitted it into a lot of standalone methods
+* @THOSE-EYES : Unit tests are rewritten completely
+
+### Added/Removed
+* @THOSE-EYES : Deleted unnecessary classes (Memory, Stack) and changed them to C++ STL classes
+* @THOSE-EYES : Created unique exceptions for every class
+* @THOSE-EYES : Created mock and fake classes for unit testing
+* @THOSE-EYES : Added several new sanity checks
+
+### Fixed
+* @THOSE-EYES : Fixed loops in the methods for handling 0xFX55 and 0xFX65 opcodes
+* @THOSE-EYES : Fixed several sources of app crashes (incorrect operations of getting register's index out of the opcode)
 
 ## [Build 5] - 23.02.2021
 
