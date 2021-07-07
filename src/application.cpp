@@ -1,33 +1,59 @@
- #include "application.hpp"
+#include "application.hpp"
 
-Application::Application(std::string filename) {
-	setFile(filename);
+using application::exceptions::InvalidFileException;
+using application::hw::CPU;
 
-    // Initialize the application
-    init();
-}
+namespace application {
+	Application::Application(std::string filename) :
+		cpu_{std::make_unique<CPU>()} {
+		set_file(filename);
+	}
 
-Application::~Application() {}
+	void Application::start() {
+		// Load the file
+		this->load();
 
-void Application::init() {
-	RAM* memory = new RAM();                         // A new instance of memory to fill
-    Stack* stack = new Stack();                       // Stack instance
-    
-    // Load the file into memory to execute
-    memory->load(_filename, constants::memory::OFFSET);
+		// Start the main cycle
+		cpu_->start();
+	}
 
-    // Create a new instance of CPU
-	_cpu = std::unique_ptr<CPU>(new CPU(memory, stack));
-}
+	void Application::set_file(const std::string& value) {
+		if (value.empty())
+			throw InvalidFileException(value); 
 
-void Application::start(void){
-    // Start the main cycle
-    _cpu->start();
-}
+		filename_ = value;
+	}
 
-void Application::setFile(std::string filename) {
-	if (filename.size() == 0)
-		throw new std::invalid_argument("Filename can't be empty"); 
+	void Application::load() {
+		auto ram{cpu_->ram()};
+		auto offset{constants::ram::offset};
+		std::ifstream stream{filename_, std::ios::binary};
+		char byte{0};
 
-	_filename = filename;
+		// Throw an exception if the file was not opened
+		if (!stream.is_open()) 
+			throw std::runtime_error("Could not open file");
+
+		// TODO : handle an empty file
+		// TODO : handle incorrect offset
+
+		//Write the program into the memory while it's not the end of the file
+		while (!stream.eof()) {
+			// Read exactly ONE byte from the file
+			stream.read(&byte, 1);
+
+			// Write a byte from the stream
+			ram->at(offset) = byte;
+
+			// Move the offset
+			++offset;
+		}
+
+		// Close the file
+		stream.close();
+	}
+
+	const std::string& Application::get_file() const noexcept {
+		return filename_;
+	}
 }

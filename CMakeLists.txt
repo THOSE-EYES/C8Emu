@@ -13,18 +13,20 @@ endif (WIN32)
 if (UNIX)
 	set(CMAKE_CXX_COMPILER "g++")
 	set(CXXFLAGS "")
-	set(CMAKE_CXX_STANDARD_LIBRARIES "-lpthread -lopenal -lboost_serialization -lgtest -lGL -lGLU -lglut")
+	set(CMAKE_CXX_STANDARD_LIBRARIES "-lpthread -lopenal -lboost_serialization -lgtest -lgmock -lGL -lGLU -lglut")
 endif (UNIX)
 
 # Looking for source files
-include_directories(include/C8Emu)
+include_directories(include)
 
 # Find the files of the project
 if (TESTING)
+	include_directories(tests)
+
 	add_compile_definitions(TESTING)
-	file(GLOB SOURCES "src/*.cpp" "tests/*.cpp")
+	file(GLOB SOURCES "src/*.cpp" "src/*/*.cpp" "tests/*.cpp")
 else()
-	file(GLOB SOURCES "src/*.cpp")
+	file(GLOB SOURCES "src/*.cpp" "src/*/*.cpp")
 endif()
 
 # Command to compile the whole project

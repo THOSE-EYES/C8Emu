@@ -1,9 +1,9 @@
-#include "settings.hpp"
+#include "utils/settings.hpp"
 
 void save(Settings* instance) {
 	//Open a file
 	std::fstream file;
-	file.open(SETTINGS_FILE, std::fstream::trunc | std::fstream::out);
+	file.open(constants::utils::settings_file, std::fstream::trunc | std::fstream::out);
 
 	//Check if the fie is opened
 	if(file.is_open()) {
@@ -23,7 +23,7 @@ void save(Settings* instance) {
 Settings* load() {
 	//Open a file
 	std::fstream file;
-	file.open(SETTINGS_FILE, std::fstream::trunc | std::fstream::out);
+	file.open(constants::utils::settings_file, std::fstream::trunc | std::fstream::out);
 
 	//Check if the fie is opened
 	if(file.is_open()) {

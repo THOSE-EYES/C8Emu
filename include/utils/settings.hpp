@@ -1,17 +1,22 @@
 #pragma once
 
+// Include C/C++ STL headers
 #include <fstream>
+
+// Include Boost headers
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 
-#define SETTINGS_FILE "settings.dat"
+// Include project headers
+#include "constants.hpp"
 
-struct Settings final{
+struct Settings final {
+public:
 	//Window section
 	unsigned short windowHeight;
 	unsigned short windowWidth;
 	
-	bool isFullScreen;
+	bool fullscreen;
 
 	//Emulator section
 
@@ -23,7 +28,7 @@ namespace boost {
 		template <class Archive>
 		void serialize(Archive& ar, Settings& instance, const unsigned int version) {
 			//Serializing some variables using "&" on the Boost archive
-			ar & instance.isFullScreen;
+			ar & instance.fullscreen;
 		}
 	}
 }
