@@ -68,41 +68,46 @@ In progress...
 ```
 .
 ├── include
-│   └── C8Emu
-│       ├── application.hpp
-│       ├── cpu.hpp
-│       ├── exceptions.hpp
-│       ├── global.hpp
-│       ├── graphics.hpp
-│       ├── keyboard.hpp
-│       ├── ram.hpp
-│       ├── settings.hpp
-│       ├── stack.hpp
-│       └── tokenizer.hpp
+│   ├── hw
+│   │   ├── cpu.hpp
+│   │   ├── gpu.hpp
+│   │   ├── keyboard.hpp
+│   │   └── soundcard.hpp
+│   ├── ui
+│   │   └── window.hpp
+│   ├── utils
+│   │   └── settings.hpp
+│   ├── application.hpp
+│   ├── constants.hpp
+│   └── exceptions.hpp
 ├── src
-│   ├── application.cpp
-│   ├── cpu.cpp
-│   ├── exceptions.cpp
-│   ├── graphics.cpp
-│   ├── keyboard.cpp
-│   ├── main.cpp
-│   ├── ram.cpp
-│   ├── settings.cpp
-│   └── stack.cpp
+│   ├── hw
+│   │   ├── cpu.cpp
+│   │   ├── gpu.cpp
+│   │   └── keyboard.cpp
+│   ├── ui
+│   │   └── window.cpp
+│   ├── utils
+│   │   └── settings.cpp
+│   ├── application.cpp
+│   └── main.cpp
 ├── tests
-│   ├── app_test.cpp
-│   ├── cpu_test.cpp
-│   ├── loader_test.cpp
-│   ├── mem_test.cpp
-│   ├── stack_test.cpp
-│   └── tokenizer_test.cpp
+│   ├── fakes
+│   │   ├── fake_application.hpp
+│   │   └── fake_cpu.hpp
+│   ├── mocks
+│   │   ├── mock_application.hpp
+│   │   └── mock_cpu.hpp
+│   ├── program
+│   │   └── demo.ch8
+│   ├── app_test.cpp
+│   └── cpu_test.cpp
 ├── CHANGELOG.md
 ├── CMakeLists.txt
 ├── LICENSE
 ├── NOTICE
 ├── README.md
 └── TODO.md
-
 ```
 ### Folders
 * `include` : pubic headers of the project
