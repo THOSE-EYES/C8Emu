@@ -20,6 +20,10 @@ cmake_minimum_required(VERSION 3.15)
 project(C8Emu)
 option(TESTING "Build unit tests along with the project" OFF)
 
+# Define variables
+set(PYTHON "python3")
+set(SCRIPTS_FOLDER "${CMAKE_SOURCE_DIR}/scripts")
+
 # Setting the compiler for Windows
 if (WIN32)
 	# FIXME : To do
@@ -54,3 +58,20 @@ endif()
 
 # Command to compile the whole project
 add_executable(${PROJECT_NAME} ${SOURCES})
+
+# Update version of the appls
+add_custom_command (
+    TARGET ${PROJECT_NAME}
+    PRE_BUILD
+    COMMAND ${PYTHON} "${SCRIPTS_FOLDER}/update_build.py"
+	COMMENT "Updating project build version"
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+
+# Custom target to easily upload new changes to the repo
+add_custom_target(push
+    COMMAND ${PYTHON} "${SCRIPTS_FOLDER}/push_project.py"
+    COMMENT "Pushing a new build to the repository"
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    DEPENDS ${PROJECT_NAME}
+)
