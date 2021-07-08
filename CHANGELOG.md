@@ -26,6 +26,7 @@
 * @THOSE-EYES : Created unique exceptions for every class
 * @THOSE-EYES : Created mock and fake classes for unit testing
 * @THOSE-EYES : Added several new sanity checks
+* @THOSE-EYES : Added scripts for automatic versioning and pushing changes to the repo
 
 ### Fixed
 * @THOSE-EYES : Fixed loops in the methods for handling 0xFX55 and 0xFX65 opcodes

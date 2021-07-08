@@ -66,7 +66,6 @@ In progress...
 
 ## Project Structure
 ```
-.
 ├── include
 │   ├── hw
 │   │   ├── cpu.hpp
@@ -79,7 +78,11 @@ In progress...
 │   │   └── settings.hpp
 │   ├── application.hpp
 │   ├── constants.hpp
-│   └── exceptions.hpp
+│   ├── exceptions.hpp
+│   └── version.hpp
+├── scripts
+│   ├── push_project.py
+│   └── update_build.py
 ├── src
 │   ├── hw
 │   │   ├── cpu.cpp
@@ -106,8 +109,7 @@ In progress...
 ├── CMakeLists.txt
 ├── LICENSE
 ├── NOTICE
-├── README.md
-└── TODO.md
+└── README.md
 ```
 ### Folders
 * `include` : pubic headers of the project
